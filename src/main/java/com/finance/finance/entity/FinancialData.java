@@ -25,4 +25,8 @@ public class FinancialData {
         this.amount = amount;
         this.date = date;
     }
+
+    public FinancialData() {
+
+    }
 }
