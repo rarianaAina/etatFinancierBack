@@ -5,7 +5,6 @@ import lombok.Data;
 
 import java.time.LocalDate;
 
-
 @Entity
 @Table(name = "financial_entries")
 public class FinancialEntry {
@@ -24,6 +23,9 @@ public class FinancialEntry {
     @ManyToOne
     @JoinColumn(name = "report_id")
     private FinancialReport financialReport;
+
+    @Column(name = "description")
+    private String description;  // Nouvelle colonne ajoutée
 
     public Long getId() {
         return id;
@@ -63,5 +65,13 @@ public class FinancialEntry {
 
     public void setFinancialReport(FinancialReport financialReport) {
         this.financialReport = financialReport;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
