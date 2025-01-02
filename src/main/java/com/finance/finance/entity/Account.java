@@ -10,12 +10,14 @@ import java.util.List;
 @Table(name = "accounts")
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "account_id")
+    private Long accountId;
 
-    private String name;
+    @Column(name = "account_name")
+    private String accountName;
 
-    private String description;
+    @Column(name = "account_code")
+    private String accountCode;
 
     @OneToMany(mappedBy = "account")
     private List<FinancialEntry> financialEntries;
@@ -27,4 +29,13 @@ public class Account {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private List<Category> categories;
+
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public String getAccountCode() {
+        return accountCode;
+    }
 }
+

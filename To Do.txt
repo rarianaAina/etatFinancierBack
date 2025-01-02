@@ -1,0 +1,38 @@
+- Modification de la table
+
+CREATE VIEW account_balances AS
+SELECT
+    fe.account_id,
+    SUM(CASE WHEN fe.amount_debit IS NOT NULL THEN fe.amount_debit ELSE 0 END) AS total_debit,
+    SUM(CASE WHEN fe.amount_credit IS NOT NULL THEN fe.amount_credit ELSE 0 END) AS total_credit,
+    (SUM(CASE WHEN fe.amount_debit IS NOT NULL THEN fe.amount_debit ELSE 0 END) -
+     SUM(CASE WHEN fe.amount_credit IS NOT NULL THEN fe.amount_credit ELSE 0 END)) AS balance
+FROM financial_entries fe
+GROUP BY fe.account_id;
+
+Filtrage par date :
+
+CREATE VIEW account_balances_by_period AS
+SELECT
+    fe.account_id,
+    SUM(CASE WHEN fe.amount_debit IS NOT NULL AND fe.date BETWEEN '2023-01-01' AND '2023-12-31' THEN fe.amount_debit ELSE 0 END) AS total_debit,
+    SUM(CASE WHEN fe.amount_credit IS NOT NULL AND fe.date BETWEEN '2023-01-01' AND '2023-12-31' THEN fe.amount_credit ELSE 0 END) AS total_credit,
+    (SUM(CASE WHEN fe.amount_debit IS NOT NULL AND fe.date BETWEEN '2023-01-01' AND '2023-12-31' THEN fe.amount_debit ELSE 0 END) -
+     SUM(CASE WHEN fe.amount_credit IS NOT NULL AND fe.date BETWEEN '2023-01-01' AND '2023-12-31' THEN fe.amount_credit ELSE 0 END)) AS balance
+FROM financial_entries fe
+GROUP BY fe.account_id;
+
+Gestion des transactions :
+
+CREATE VIEW transaction_details AS
+SELECT
+    fe.id,
+    fe.date,
+    fe.account_id,
+    fe.amount_debit,
+    fe.amount_credit,
+    fe.description AS entry_description,
+    t.id AS transaction_id,
+    t.description AS transaction_description
+FROM financial_entries fe
+JOIN transactions t ON t.id = fe.id_transaction;

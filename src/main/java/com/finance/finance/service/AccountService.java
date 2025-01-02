@@ -14,4 +14,13 @@ public class AccountService {
     public Account getAccountById(Long accountId) {
         return accountRepository.findById(accountId).orElse(null);
     }
+
+    public Account getAccountByCode(String accountCode) {
+        return accountRepository.findByAccountCode(accountCode);
+    }
+
+    public String getCategoryTypeByAccountId(Long accountId) {
+        // Appel du repository pour obtenir la catégorie du compte
+        return accountRepository.findCategoryTypeByAccountId(accountId);
+    }
 }

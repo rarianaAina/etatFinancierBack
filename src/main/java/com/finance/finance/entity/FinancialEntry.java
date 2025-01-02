@@ -1,8 +1,6 @@
 package com.finance.finance.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-
 import java.time.LocalDate;
 
 @Entity
@@ -14,18 +12,22 @@ public class FinancialEntry {
 
     private LocalDate date;
 
-    private Double amount;
+    @Column(name = "amount_debit")
+    private Double amountDebit;
+
+    @Column(name = "amount_credit")
+    private Double amountCredit;
 
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
 
-    @ManyToOne
-    @JoinColumn(name = "report_id")
-    private FinancialReport financialReport;
-
     @Column(name = "description")
-    private String description;  // Nouvelle colonne ajoutée
+    private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "id_transaction") // FK vers Transaction
+    private Transaction transaction;
 
     public Long getId() {
         return id;
@@ -43,12 +45,20 @@ public class FinancialEntry {
         this.date = date;
     }
 
-    public Double getAmount() {
-        return amount;
+    public Double getAmountDebit() {
+        return amountDebit;
     }
 
-    public void setAmount(Double amount) {
-        this.amount = amount;
+    public void setAmountDebit(Double amountDebit) {
+        this.amountDebit = amountDebit;
+    }
+
+    public Double getAmountCredit() {
+        return amountCredit;
+    }
+
+    public void setAmountCredit(Double amountCredit) {
+        this.amountCredit = amountCredit;
     }
 
     public Account getAccount() {
@@ -59,19 +69,19 @@ public class FinancialEntry {
         this.account = account;
     }
 
-    public FinancialReport getFinancialReport() {
-        return financialReport;
-    }
-
-    public void setFinancialReport(FinancialReport financialReport) {
-        this.financialReport = financialReport;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Transaction getTransaction() {
+        return transaction;
+    }
+
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
     }
 }
